@@ -1,43 +1,51 @@
 import React from 'react';
-import {View, Image, Text, StyleSheet} from 'react-native';
+import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {
     DrawerContentScrollView,
     DrawerItem
 } from '@react-navigation/drawer'
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { Drawer } from 'react-native-paper';
-
-
+import { useNavigation } from '@react-navigation/native';
 
 const HoriLine = () =>(
-    <View style={{height:1.5, width:"93%",alignSelf:"center", backgroundColor:"#5c3b28", marginTop:"1%"}}></View>
+    <View style={{height:1.5, width:"93%",alignSelf:"center", backgroundColor:"#5c3b28", marginTop:"2%",marginBottom:"2%"}}></View>
 );
 
 export function DrawerContent(props){
+
+    const navigation = useNavigation();
+
     return(
         // <View style={styles.upperLayer}>
             <View style={styles.container} >
 
-                    <View  style={styles.gap1} ></View>
-                    
-                    <Image style={styles.tinyLogo} source = {require("../../images/profilePic.jpeg")}/>
+                <View  style={styles.gap1} ></View>
+                
+                <Image style={styles.tinyLogo} source = {require("../../images/profilePic.jpeg")}/>
 
-                    <Text style={styles.name} >Muhammad Ali Alam</Text>
+                <Text style={styles.name} >Muhammad Ali Alam</Text>
 
-                    <Text style={styles.email}>joker@gmail.com</Text>
+                <Text style={styles.email}>joker@gmail.com</Text>
 
-                    <HoriLine/>
-                    <DrawerContentScrollView { ...props}>
-                    <Drawer.Section style={styles.drawerContent} >
-                        <DrawerItem style={styles.button} label="My Profile" OnPress={() => {props.navigation.navigate("MyProfile")}} />
+                <HoriLine/>
 
-                        <DrawerItem style={styles.button} label="My Articles" OnPress={() => {props.navigation.navigate("MyArticles")}} />
+                <TouchableOpacity activeOpacity={0.5} style={styles.button}>
+                  <Text style={styles.buttonText} onPress={() => navigation.navigate("MyProfile")}>My Profile</Text>
+                </TouchableOpacity>
 
-                        <DrawerItem style={styles.button} label="Moderator Panel" OnPress={() => {props.navigation.navigate("MyArticles")}} />
+                <TouchableOpacity activeOpacity={0.5} style={styles.button}>
+                  <Text style={styles.buttonText} onPress={() => navigation.navigate("MyArticles")}>My Articles</Text>
+                </TouchableOpacity>
 
-                        <DrawerItem style={styles.button} label="Log Out" OnPress={() => {}} />
-                    </Drawer.Section>
-                </DrawerContentScrollView>
+                <TouchableOpacity activeOpacity={0.5} style={styles.button}>
+                  <Text style={styles.buttonText} onPress={() => navigation.navigate("MyArticles")}>Moderation Panel</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity activeOpacity={0.5} style={styles.button}>
+                  <Text style={styles.buttonText} onPress={() => navigation.navigate("Logout")}>Log out</Text>
+                </TouchableOpacity>
+
             </View>
         // </View>
     )
@@ -45,7 +53,7 @@ export function DrawerContent(props){
 
 const styles = StyleSheet.create({
     upperLayer:{
-        width:"130%",
+        width:"125%",
         height:"100%",
         backgroundColor:"#EAB79B",
     },
@@ -55,6 +63,16 @@ const styles = StyleSheet.create({
         color:"#4F2F24",
         fontWeight:"bold",
         alignSelf:"center",
+        height:45,
+        justifyContent:"center",
+        marginTop:"3.5%",
+        borderRadius:8,
+
+    },
+    buttonText:{
+        marginLeft:13,
+        fontSize:20,
+        color:"#4F2F24"
     },
     gap1:{
         height:"7%",
@@ -76,6 +94,7 @@ const styles = StyleSheet.create({
     },
     name:{
         marginTop:"2%",
+        color:"#4F2F24",
         marginBottom:"2%",
         fontSize: RFPercentage(4),
         alignSelf:"center",
@@ -86,6 +105,7 @@ const styles = StyleSheet.create({
         marginBottom:"3%",
         fontSize: RFPercentage(2.2),
         textAlign:"center",
+        color:"#4F2F24",
     },
 
 
