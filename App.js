@@ -28,7 +28,7 @@ export default function App() {
     return (  
       <View style= {styles.container}> 
         <NavigationContainer >
-        <Stack.Navigator initialRouteName="ModeratorPanel" screenOptions={{headerShown: false}}>
+        <Stack.Navigator initialRouteName="LandingPage" screenOptions={{headerShown: false}}>
             <Stack.Screen name="LandingPage" component={LandingPage} />
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="SignUp" component={SignUp} />

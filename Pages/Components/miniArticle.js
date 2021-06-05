@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, ImageBackground, Text, View } from "react-native";
 import { MaterialCommunityIcons} from '@expo/vector-icons'; 
 
-const MiniArticle = () => {
+const MiniArticle = (props) => {
   return (
     <View style={styles.container}>
         <View style={styles.imgContainer}>
@@ -11,8 +11,8 @@ const MiniArticle = () => {
             </ImageBackground>
         </View>
 
-        <Text style={styles.eventName}>Event Name</Text>
-        <Text style={styles.author}>By: Author Name</Text>
+        <Text style={styles.eventName}>{props.eventName}</Text>
+        <Text style={styles.author}>By:{props.authorName}</Text>
         <Text style={styles.location}>Location: Location name</Text>
         
         <Text style={styles.text} numberOfLines={4} >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

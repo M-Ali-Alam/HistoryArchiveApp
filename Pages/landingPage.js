@@ -16,15 +16,8 @@ const LandingPage = ({ navigation }) => {
 
       <MyButton style={styles.buttonsContainer0} content={"Continue as Guest"} changeTo = {"HomePage"} />
 
-      {/* <TouchableOpacity style={styles.buttonsContainer} onPress={() => navigation.navigate("HomePage")}>
-        <Text style={styles.buttons}>Continue as Guest</Text>
-      </TouchableOpacity> */}
-
       <MyButton style={styles.buttonsContainer1} content={"Sign in"} changeTo = {"SignIn"} />
 
-      {/* <TouchableOpacity style={styles.buttonsContainer1} onPress={() => navigation.navigate("SignIn")}>
-        <Text style={styles.buttons}>Sign in</Text>
-      </TouchableOpacity> */}
     </ImageBackground>
   );
 };

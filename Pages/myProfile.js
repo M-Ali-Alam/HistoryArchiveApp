@@ -20,13 +20,23 @@ const MyProfile = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [phoneNum, setPhoneNum] = useState('');
 
-    const tokenValue= "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwN2NhYmQ3MmY2NmFlMDAxNWIwODRmNiIsInVzZXJuYW1lIjoieW91cnVzZXJuYW1lMSIsImlhdCI6MTYxODk0OTkwNn0.AepKFVKIiJhq-y0LmqtdsL1Tr6ze2udMJXVabmLQa1s";
+
+    const readData = async () => {
+        try {
+          const token = await AsyncStorage.getItem("token")
+          console.log('token fetched')
+        } catch (e) {
+          console.log('Failed to load data from storage')
+          console.log(e)
+        }
+      }
 
 
-    useEffect(() => {
+    useEffect( async() => {
 
         try{
-            fetch("https://historyarchiveapi.herokuapp.com/myprofile", {
+            await readData();
+            await fetch("https://historyarchiveapi.herokuapp.com/myprofile", {
               method:'POST',
               body: JSON.stringify({
                 token:tokenValue

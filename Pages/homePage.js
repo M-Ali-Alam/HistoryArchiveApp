@@ -13,24 +13,27 @@ const Gap = () => {
 };
 
 const HomePage = () => {
+
+
+
   return(
   <View style={styles.container}>
       <Header content="HomePage" navigation />
       <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
       <TimeLine/>
-      <MiniArticle/>
+      <MiniArticle eventName="1947" authorName="Muneeb ur Rehman"/>
       <Gap/>
-      <MiniArticle/>
+      <MiniArticle eventName="Fall of Berlin Wall" authorName="The Great Muneeb ur Rehman"/>
       <Gap/>
-      <MiniArticle/>
+      <MiniArticle eventName="Independence of Pakistan" authorName="Aniq Ahmed"/>
       <Gap/>
-      <MiniArticle/>
+      <MiniArticle eventName="1947" authorName="author name"/>
       <Gap/>
-      <MiniArticle/>
+      <MiniArticle eventName="1947" authorName="Author 1"/>
       <Gap/>
-      <MiniArticle/>
+      <MiniArticle eventName="1947" authorName="Author 2"/>
       <Gap/>
-      <MiniArticle/>
+      <MiniArticle eventName="1947" authorName="Author 3"/>
       <Gap/>
       </ScrollView>
 

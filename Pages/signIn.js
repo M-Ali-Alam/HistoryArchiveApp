@@ -9,15 +9,26 @@ import {
 } from "react-native";
 import Header from "./header";
 import MyButton from "./Components/MyButtons";
+import { AsyncStorage } from '@react-native-async-storage/async-storage';
+
 
 const SignIn = ({ navigation }) => {
+
+  const saveData = async (tok) => {
+    try {
+      await AsyncStorage.setItem("token", tok)
+    } catch (e) {
+      console.log('Failed to save the data to the storage')
+    }
+  }
+  
 
   const [username,setUsername] = useState('');
   const [password,setPassword] = useState('');
   const [error, setError] = useState('');
 
 
-  const handleSubmitButton = () => { 
+  const handleSubmitButton = async() => { 
     if(!username){
       setError('Please enter username');
       return;
@@ -29,7 +40,7 @@ const SignIn = ({ navigation }) => {
     }
 
     try{
-      fetch("https://historyarchiveapi.herokuapp.com/signin", {
+      await fetch("https://historyarchiveapi.herokuapp.com/signin", {
         method:'POST',
         body: JSON.stringify({
           username:username,
@@ -48,7 +59,8 @@ const SignIn = ({ navigation }) => {
           if ( !Object.keys(json.body).length ){
             setError("Invalid Credentials")
           }else{
-            navigation.navigate("HomePage")
+            saveData(json.body.token);
+            navigation.navigate("DrawerScreen")
           }
         }).catch((error) => {
           console.error(error);
@@ -56,9 +68,7 @@ const SignIn = ({ navigation }) => {
       }catch (error){
         console.log(error);
       }
-
   }
-
 
   return (
     <View>
