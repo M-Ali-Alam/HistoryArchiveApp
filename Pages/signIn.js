@@ -9,11 +9,11 @@ import {
 } from "react-native";
 import Header from "./header";
 import MyButton from "./Components/MyButtons";
-import userTypeContext from "./landingPage";
+import tokenTypeContext from "../context/tokenType";
 
 const SignIn = ({ navigation }) => {
 
-  const type = React.useContext(userTypeContext);
+  const {token,setToken,type, setType} = React.useContext(tokenTypeContext);
 
 
   const [username,setUsername] = useState('');
@@ -52,8 +52,9 @@ const SignIn = ({ navigation }) => {
           if ( !Object.keys(json.body).length ){
             setError(`${json.header.message}`)
           }else{
-            // <userTypeContext.Provider value = {json.body.token}/>
-            navigation.navigate("DrawerScreen", json.body.token)
+            setToken(json.body.token)
+            setType(json.body.userType)
+            navigation.navigate("DrawerScreen", {token :json.body.token, userType: json.body.userType})
           }
         }).catch((error) => {
           console.error(error);

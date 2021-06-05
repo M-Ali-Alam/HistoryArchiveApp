@@ -18,7 +18,7 @@ const MiniArticle = (props) => {
 
             <Text style={styles.eventName}>{props.article.eventName}</Text>
             <Text style={styles.author}>By: {props.article.title}</Text>
-            <Text style={styles.location}>{props.article.location}</Text>
+            <Text style={styles.location}>Location: {props.article.location}</Text>
 
             <Text style={styles.text} numberOfLines={4}>{props.article.mainText}</Text>
         </View>

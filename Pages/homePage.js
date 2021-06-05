@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, ScrollView, Image, TouchableOpacity, Text, View, FlatList } from "react-native";
+import tokenTypeContext from "../context/tokenType";
 
 // importing component
 import Header from "./header";
 import TimeLine from "./Components/timeline";
 import MiniArticle from "./Components/miniArticle";
+import HeaderMenu from "./Components/headerMenu"
 
 const Gap = () => {
   return <View style={{ height: 20 }}></View>;
@@ -13,6 +15,35 @@ const Gap = () => {
 const HomePage = (props) => {
     const [year, setYear] = useState("2009");
     const [res, setRes] = useState(null);
+
+    
+  const {token,setToken,type, setType} = React.useContext(tokenTypeContext);
+
+  const ShowButton =() =>{
+    if(type == 0 || type == 1 || type == 2){
+      return(
+        <TouchableOpacity activeOpacity={0.5} style={styles.plusButtonImg} onPress={() => props.navigation.navigate("CreateNewArticle")}>
+            <Image source={require("../images/plusButton.png")} style={styles.img} />
+        </TouchableOpacity>
+      )
+    }else{
+      return(<View></View>)
+    }
+  }
+
+    const Icons = () => {
+      console.log(token)
+      if(type == 0 || type == 1 || type == 2){
+        return (
+          <HeaderMenu navigation />
+        )
+
+      }else{
+        return(
+          <Header content="HomePage" navigation/>
+        )
+      }
+    }
 
     useEffect(() => {
         fetch("https://historyarchiveapi.herokuapp.com/article/view", {
@@ -44,20 +75,23 @@ const HomePage = (props) => {
 
     return (
         <View style={styles.container}>
-            <Header content="HomePage" navigation />
-
-            <FlatList
+            <Icons/>
+            <View style={{height:"92%"}} >
+            <FlatList showsVerticalScrollIndicator={false}
                 keyExtractor={(res) => res._id.toString()}
                 style={styles.scroll}
                 data={res}
                 renderItem={({ item }) => {
-                    return <MiniArticle article={item} />;
+                    return (
+                      <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={() => props.navigation.navigate("ViewArticle")} >
+                        <MiniArticle article={item}/>
+                      </TouchableOpacity>
+                      );
                 }}
             />
+            </View>
 
-            <TouchableOpacity activeOpacity={0.5} style={styles.plusButtonImg} onPress={() => props.navigation.navigate("CreateNewArticle")}>
-                <Image source={require("../images/plusButton.png")} style={styles.img} />
-            </TouchableOpacity>
+            <ShowButton/>
         </View>
     );
 };

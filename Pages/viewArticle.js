@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     marginTop:"5%",
     alignSelf:"center",
     backgroundColor: '#F1CBAE',
-    width:"85%",
+    width:"93%",
     flex:1,
   },
   imgContainer:{

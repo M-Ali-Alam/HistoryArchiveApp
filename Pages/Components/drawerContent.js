@@ -7,6 +7,8 @@ import {
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { Drawer } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import tokenTypeContext from "../../context/tokenType";
+
 
 const HoriLine = () =>(
     <View style={{height:1.5, width:"93%",alignSelf:"center", backgroundColor:"#5c3b28", marginTop:"2%",marginBottom:"2%"}}></View>
@@ -16,6 +18,10 @@ export function DrawerContent(props){
 
     const navigation = useNavigation();
 
+    const {token,setToken,type,setType} = React.useContext(tokenTypeContext);
+
+    const logoutHandle = () => {
+    }
 
     return(
           
@@ -45,7 +51,10 @@ export function DrawerContent(props){
                 </TouchableOpacity>
 
                 <TouchableOpacity activeOpacity={0.5} style={styles.button}>
-                  <Text style={styles.buttonText} onPress={() => navigation.navigate("Logout")}>Log out</Text>
+                  <Text style={styles.buttonText} onPress={() => {setToken()
+        setType()
+        navigation.navigate("LandingPage")}}
+        >Log out</Text>
                 </TouchableOpacity>
 
             </View>
