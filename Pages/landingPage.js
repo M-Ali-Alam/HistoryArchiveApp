@@ -9,6 +9,8 @@ import MyButton from "./Components/MyButtons"
 
 const horseLocation = "../images/HorsePainting0.jpg";
 
+export const userTypeContext = React.createContext('guest');
+
 const LandingPage = ({ navigation }) => {
   return (
     <ImageBackground source={require(horseLocation)} style={styles.image}>

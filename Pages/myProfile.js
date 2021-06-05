@@ -21,22 +21,13 @@ const MyProfile = ({ navigation }) => {
     const [phoneNum, setPhoneNum] = useState('');
 
 
-    const readData = async () => {
-        try {
-          const token = await AsyncStorage.getItem("token")
-          console.log('token fetched')
-        } catch (e) {
-          console.log('Failed to load data from storage')
-          console.log(e)
-        }
-      }
+    const tokenValue = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwYjkyYjIwNTRmMzNiMWNjNGFlZGY2YSIsInVzZXJuYW1lIjoiYWJjIiwiaWF0IjoxNjIyOTAyODA5fQ.r4tRzYLolN6BwCzbzBik444CnQh9YArSMTWqxbhYGqs";
 
 
-    useEffect( async() => {
+    useEffect( () => {
 
         try{
-            await readData();
-            await fetch("https://historyarchiveapi.herokuapp.com/myprofile", {
+            fetch("https://historyarchiveapi.herokuapp.com/myprofile", {
               method:'POST',
               body: JSON.stringify({
                 token:tokenValue
@@ -47,19 +38,19 @@ const MyProfile = ({ navigation }) => {
               },
               }).then((response) => response.json())
               .then((json) => {
-                  setPhoneNum(json.body.data.credentials.phoneNo)
-                  setFirstName(json.body.data.credentials.firstname)
-                  setLastName(json.body.data.credentials.lastname)
-                  setUsername("JohnDoe")
-                  setEmail("Email")
+                  if (json.body.data.credentials != undefined){
+                    setPhoneNum(json.body.data.credentials.phoneNo)
+                    setFirstName(json.body.data.credentials.firstname)
+                    setLastName(json.body.data.credentials.lastname)
+                  }
+                  setUsername(json.body.data.username)
+                    setEmail(json.body.data.email)
               })
             }catch (error){
                 console.log(error);
-            }       
+            }
       });
     
-
-
     return (
         <View>
             <Header content="Change Password" navigation/>

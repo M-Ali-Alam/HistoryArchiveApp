@@ -18,7 +18,7 @@ import HomePage from "./Pages/homePage";
 import MyProfile from "./Pages/myProfile";
 import DrawerScreen from "./Pages/drawerScreen";
 import MyArticles from "./Pages/myArticles";
-import moderatorPanel from "./Pages/moderatorPanel";
+import CreateNewArticle from "./Pages/createNewArticle";
 import ModeratorPanel from './Pages/moderatorPanel';
 
 const Stack = createStackNavigator();
@@ -41,6 +41,7 @@ export default function App() {
             <Stack.Screen name="MyArticles" component={MyArticles} />
             <Stack.Screen name="MyProfile" component={MyProfile} />
             <Stack.Screen name="ModeratorPanel" component={ModeratorPanel} />
+            <Stack.Screen name="CreateNewArticle" component={CreateNewArticle} />
 
           </Stack.Navigator>
         </NavigationContainer>

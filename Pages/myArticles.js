@@ -16,6 +16,7 @@ const MyArticles = () => {
   <View style={styles.container}>
       <Header content="My Articles" navigation />
       <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
+      <Gap/>
       <MiniArticle/>
       <Gap/>
       <MiniArticle/>

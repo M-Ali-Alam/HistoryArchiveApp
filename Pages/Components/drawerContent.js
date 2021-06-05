@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import React, { useState, useEffect } from 'react';
 import {
     DrawerContentScrollView,
     DrawerItem
@@ -7,7 +7,6 @@ import {
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { Drawer } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import { AsyncStorage } from '@react-native-async-storage/async-storage';
 
 const HoriLine = () =>(
     <View style={{height:1.5, width:"93%",alignSelf:"center", backgroundColor:"#5c3b28", marginTop:"2%",marginBottom:"2%"}}></View>
@@ -15,26 +14,7 @@ const HoriLine = () =>(
 
 export function DrawerContent(props){
 
-    const [token,setToken] = useState('');
-
     const navigation = useNavigation();
-
-    const readData = async () => {
-        try {
-          const token = await AsyncStorage.getItem("token")
-          console.log(token)
-          setToken(token);
-          console.log('token fetched')
-
-        } catch (e) {
-          console.log('Failed to load data from storage')
-          console.log(e)
-        }
-      }
-
-      useEffect(() => {
-        console.log(readData())
-      });
 
 
     return(
@@ -61,7 +41,7 @@ export function DrawerContent(props){
                 </TouchableOpacity>
 
                 <TouchableOpacity activeOpacity={0.5} style={styles.button}>
-                  <Text style={styles.buttonText} onPress={() => navigation.navigate("MyArticles")}>Moderation Panel</Text>
+                  <Text style={styles.buttonText} onPress={() => navigation.navigate("ModeratorPanel")}>Moderation Panel</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity activeOpacity={0.5} style={styles.button}>

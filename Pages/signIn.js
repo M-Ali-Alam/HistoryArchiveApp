@@ -9,19 +9,12 @@ import {
 } from "react-native";
 import Header from "./header";
 import MyButton from "./Components/MyButtons";
-import { AsyncStorage } from '@react-native-async-storage/async-storage';
-
+import userTypeContext from "./landingPage";
 
 const SignIn = ({ navigation }) => {
 
-  const saveData = async (tok) => {
-    try {
-      await AsyncStorage.setItem("token", tok)
-    } catch (e) {
-      console.log('Failed to save the data to the storage')
-    }
-  }
-  
+  const type = React.useContext(userTypeContext);
+
 
   const [username,setUsername] = useState('');
   const [password,setPassword] = useState('');
@@ -57,10 +50,10 @@ const SignIn = ({ navigation }) => {
           console.log("error code = ")
           console.log(json.header['error code'])
           if ( !Object.keys(json.body).length ){
-            setError("Invalid Credentials")
+            setError(`${json.header.message}`)
           }else{
-            saveData(json.body.token);
-            navigation.navigate("DrawerScreen")
+            // <userTypeContext.Provider value = {json.body.token}/>
+            navigation.navigate("DrawerScreen", json.body.token)
           }
         }).catch((error) => {
           console.error(error);
@@ -91,10 +84,6 @@ const SignIn = ({ navigation }) => {
             </TouchableOpacity>    
         </View>
 
-        {/* <TouchableOpacity style={styles.forget} onPress={() => navigation.navigate("ForgetPassword1")}>
-          <View style={styles.forgetView}><Text style={styles.text}></Text></View>
-        </TouchableOpacity> */}
-
         <View>
           <Text style={styles.error}>{error}</Text>
         </View>
@@ -107,10 +96,6 @@ const SignIn = ({ navigation }) => {
         <View style={styles.button2}>
 
           <MyButton style={styles.buttonsContainer0} content={"Sign up"} changeTo = {"SignUp"} />
-
-          {/* <TouchableOpacity style={styles.buttonsContainer} onPress={() => navigation.navigate("SignUp")}>
-            <Text style={styles.buttons}>Sign up</Text>
-          </TouchableOpacity> */}
 
         </View>
       </View>

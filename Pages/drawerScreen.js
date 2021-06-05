@@ -1,21 +1,19 @@
-import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
-
+import React, { useState, useEffect } from 'react';
 
 // Pages
 import HomePage from "./homePage";
-import MyArticles from "./myArticles";
-import MyProfile from "./myProfile";
 import Blank from "./blank";
 import {DrawerContent} from "./Components/drawerContent";
+import userTypeContext from "./landingPage";
 
 const Drawer = createDrawerNavigator();
 
-export default function DrawerScreen()  {
+export default function DrawerScreen({ props })  {
+
     return (
         <Drawer.Navigator initialRouteName="HomePage" drawerContent={props => <DrawerContent navigation />}>
-          <Drawer.Screen name="HomePage" component={HomePage} />
+          <Drawer.Screen name="HomePage" component={HomePage} navigation/>
           <Drawer.Screen
               name="Logout"
               component={Blank}
