@@ -5,8 +5,8 @@ import { StyleSheet, TouchableOpacity,SafeAreaView, Text, View, ScrollView, Text
 import Header from "./header";
 import MyButton from "./Components/MyButtons"
 
-const EditArticle = () => {
-  const [text, onChangeText] = React.useState("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt inculpa qui officia deserunt mollit anim id est laborum.");
+const EditArticle = (props) => {
+  const [text, onChangeText] = React.useState(props.mainText);
 
     return (
         <View style={styles.container}>
@@ -14,26 +14,26 @@ const EditArticle = () => {
             <View style={styles.scrollContainer}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.eventName}>
-                  <TextInput style={styles.eventText} value={"Event Name"} />
+                  <TextInput style={styles.eventText} value={props.eventName} />
                 </View>
 
                 <View style={styles.author}>
-                  <TextInput style={styles.eventText} value={"Author Name"} />
+                  <TextInput style={styles.eventText} value={props.authorName} />
                 </View>
 
                 <View style={styles.author}>
-                  <TextInput style={styles.eventText} value={"Date"} />
+                  <TextInput style={styles.eventText} value={props.date} />
                 </View>
 
                 <View style={styles.location}>
-                  <TextInput style={styles.eventText} value={"Location"} />
+                  <TextInput style={styles.eventText} value={props.location} />
                 </View>
                 <SafeAreaView style={styles.textContainer}>
                     <TextInput style={styles.Text} value={text} multiline={true}/>
                 </SafeAreaView>
               </ScrollView>
             </View>
-          <MyButton style={styles.buttonsContainer0} content={"Save Changes"}  />
+          <MyButton style={styles.buttonsContainer0} content={"Save Changes"} />
         </View>
       );
 };

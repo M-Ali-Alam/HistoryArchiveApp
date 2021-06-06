@@ -7,7 +7,7 @@ import tokenTypeContext from "../context/tokenType";
 import Header from "./header";
 import MyButton from "./Components/MyButtons"
 
-const CreateNewArticle = () => {
+const CreateNewArticle = ({navigation}) => {
 
   const {token,setToken,type, setType} = React.useContext(tokenTypeContext);
 
@@ -17,7 +17,7 @@ const CreateNewArticle = () => {
   const [authorName, setAuthorName] = React.useState("");
   const [date, setDate] = React.useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if(!text) {
      return 
     }
@@ -40,14 +40,14 @@ const CreateNewArticle = () => {
         body: JSON.stringify({
           token:token,
           article:{
-            
+
           }
         }),
         headers: {
           'Content-Type':
           'application/json',
         },
-        }).then((response) => response.json())
+        }).then((response) => response.text())
         .then((json) => {
           console.log("json = ")
           console.log(json)
@@ -66,7 +66,6 @@ const CreateNewArticle = () => {
       }catch (error){
         console.log(error);
       }
-
   }
 
     return (
@@ -96,7 +95,7 @@ const CreateNewArticle = () => {
             </View>
 
           <TouchableOpacity activeOpacity={0.5} style={styles.buttonsContainer}>
-            <Text style={styles.buttons} onPress={handleSubmit()}>Save Button</Text>
+            <Text style={styles.buttons} onPress={() => handleSubmit()}>Save Button</Text>
           </TouchableOpacity>
         </View>
       );

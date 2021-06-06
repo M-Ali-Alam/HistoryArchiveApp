@@ -6,14 +6,16 @@ import tokenTypeContext from "../context/tokenType";
 // importing component
 import Header from "./header";
 
-const ViewArticle = ({navigation}) => {
+const ViewArticle = ({navigation}, props) => {
 
   const {token,setToken,type,setType} = React.useContext(tokenTypeContext);
 
     const Edit = () => {
         if(type == 0 || type == 1 || type == 2){
             return(
-                <MaterialCommunityIcons name="pencil" size={30} style={styles.icon} color="#4F2F24" onPress={() => navigation.navigate("EditArticle")}/>
+                <MaterialCommunityIcons name="pencil" size={30} style={styles.icon} color="#4F2F24" onPress={() => navigation.navigate("EditArticle",{
+                  article:props.article
+                })}/>
             )
         }else{
             return(<View></View>)
@@ -32,7 +34,7 @@ const ViewArticle = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-        <Header content="View Article" navigation />
+        <Header content={props.article.eventName} navigation />
         <View style={styles.scrollContainer}>
          <ScrollView style={{flex:1}}>
             <View style={styles.imgContainer}>
@@ -44,8 +46,8 @@ const ViewArticle = ({navigation}) => {
 
             <View style={{flexDirection:"row"}}>
               <View style={{flex:3}}>
-                <Text style={styles.author}>By: Author Name</Text>
-                <Text style={styles.location}>Location: Location name</Text>
+                <Text style={styles.author}>By: {props.article.authorName}</Text>
+                <Text style={styles.location}>Location: {props.article.location}</Text>
               </View>
             <View style={{flexDirection:"row-reverse",marginLeft:"5%", alignSelf:"center",flex:1}}>
               <Trash/>
@@ -54,36 +56,7 @@ const ViewArticle = ({navigation}) => {
 
             <Text style={styles.details}>Details</Text> 
 
-            <Text style={styles.text}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-            </Text>
+            <Text style={styles.text}>{props.article.mainText}</Text>
             
         </ScrollView>
 

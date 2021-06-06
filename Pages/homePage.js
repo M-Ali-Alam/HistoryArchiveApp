@@ -77,16 +77,18 @@ const HomePage = ({navigation} , props) => {
             <Icons/>
             <View style={{height:"92%"}} >
             <FlatList showsVerticalScrollIndicator={false}
-                keyExtractor={(res) => res._id.toString()}
-                style={styles.scroll}
-                data={res}
-                renderItem={({ item }) => {
-                    return (
-                      <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={() => navigation.navigate("ViewArticle")} >
-                        <MiniArticle navigation article={item}/>
-                      </TouchableOpacity>
-                      );
-                }}
+              keyExtractor={(res) => res._id.toString()}
+              style={styles.scroll}
+              data={res}
+              renderItem={({ item }) => {
+                return (
+                  <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={() => navigation.navigate("ViewArticle",{
+                    article:item
+                  })} >
+                    <MiniArticle navigation article={item}/>
+                  </TouchableOpacity>
+                );
+              }}
             />
             </View>
 
