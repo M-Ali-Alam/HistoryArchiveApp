@@ -10,15 +10,87 @@ import {
 } from "react-native";
 
 import Header from "./header";
+import tokenTypeContext from "../context/tokenType";
 
 
 const MyProfile = ({ navigation }) => {
 
+    const {token,setToken,type,setType} = React.useContext(tokenTypeContext);
     const [username,setUsername] = useState('');
     const [firstName,setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNum, setPhoneNum] = useState('');
+
+    const handleSubmitButton = async() => { 
+    console.log("hanedle")
+    console.log(username)
+    console.log(firstName)
+    console.log(lastName)
+    console.log(phoneNum)
+    console.log(email)
+
+    if(!username){
+        console.log("No Username Entered")
+        return;
+    }
+
+    if(!firstName){
+        console.log("No Firstname Entered")
+        return;
+    }
+
+    if(!lastName){
+        console.log("No Lastname Entered")
+        return;
+    }
+
+    if(!email){
+        console.log("No Email Entered")
+        return;
+    }
+
+    if(!phoneNum){
+        console.log("No Phone Number Entered")
+        return;
+    }
+
+        try{
+          await fetch("https://historyarchiveapi.herokuapp.com/myprofile/savechanges", {
+            method:'POST',
+            body: JSON.stringify({
+              token:token,
+              username:username, 
+              email:email,
+              credentials: {
+                  firstname:firstName, 
+                  lastname:lastName, 
+                  phoneno:phoneNum, 
+                  username:username,
+                },  
+              
+            }),
+            headers: {
+              'Content-Type':
+              'application/json',
+            },
+            }).then((response) => response.json())
+            .then((json) => {
+              console.log("json = ")
+              console.log(json)
+/*              if (json.header.error != 0) {
+                console.log(json.header.message)
+              }else{
+                console.log("Profile Edit Successful")
+              }
+*/          }).catch((error) => {
+              console.error(error);;
+            });
+          }catch (error){
+            console.log(error);
+          }
+      }
+
 
 
     const tokenValue = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwYjkyYjIwNTRmMzNiMWNjNGFlZGY2YSIsInVzZXJuYW1lIjoiYWJjIiwiaWF0IjoxNjIyOTAyODA5fQ.r4tRzYLolN6BwCzbzBik444CnQh9YArSMTWqxbhYGqs";
@@ -30,7 +102,7 @@ const MyProfile = ({ navigation }) => {
             fetch("https://historyarchiveapi.herokuapp.com/myprofile", {
               method:'POST',
               body: JSON.stringify({
-                token:tokenValue
+                token:token
               }),
               headers: {
                 'Content-Type':
@@ -49,11 +121,11 @@ const MyProfile = ({ navigation }) => {
             }catch (error){
                 console.log(error);
             }
-      });
+      },[]);
     
     return (
         <View>
-            <Header content="Change Password" navigation/>
+            <Header content="My Profile" navigation/>
             <View style={styles.container} >
                 <View style={styles.imageContainer}>
                     <Image style={styles.tinyLogo} source = {require("../images/profilePic.jpeg")}/>
@@ -62,7 +134,7 @@ const MyProfile = ({ navigation }) => {
                 <View style={styles.informationContainer}>
                     <View style={styles.textContainer}>
                         <Text style={styles.heading}>Username</Text>
-                        <TextInput style={styles.values}>{username}</TextInput>
+                        <TextInput style={styles.values} onChangeText={(uname) => setUsername(uname)}>{username}</TextInput>
                     </View>
                     
 
@@ -72,12 +144,11 @@ const MyProfile = ({ navigation }) => {
                     <View style={styles.horizontalBar}>
                         <View style={styles.textContainer}>
                             <Text style={styles.heading} >First Name </Text>
-                            <TextInput style={styles.values} >{firstName} </TextInput>
-
+                            <TextInput style={styles.values} onChangeText={(fname) => setFirstName(fname)}>{firstName}</TextInput>
                         </View>
                         <View >
                             <Text style={styles.heading} >Last Name</Text>
-                            <TextInput style={styles.values} >{lastName} </TextInput>
+                            <TextInput style={styles.values} onChangeText={(lname) => setLastName(lname)}>{lastName}</TextInput>
                         </View>
                     </View>
 
@@ -86,7 +157,7 @@ const MyProfile = ({ navigation }) => {
                     <View style={styles.horizontalBar}>
                         <View style={styles.textContainer}>
                             <Text style={styles.heading} >Email</Text>
-                            <TextInput style={styles.values} >{email} </TextInput>
+                            <TextInput style={styles.values} onChangeText={(email) => setEmail(email)}>{email}</TextInput>
                         </View>
 
                         <Image style={styles.smallImages} source={require("../images/envelope.png")}/>
@@ -96,7 +167,7 @@ const MyProfile = ({ navigation }) => {
                     <View style={styles.horizontalBar}>
                         <View style={styles.textContainer}>
                             <Text style={styles.heading} >Phone #</Text>
-                            <TextInput style={styles.values} >{phoneNum}</TextInput>
+                            <TextInput style={styles.values} onChangeText={(pno) => setPhoneNum(pno)}>{phoneNum}</TextInput>
                         </View>
 
                         <Image style={{alignSelf:"center",position: 'absolute', right: 25, height:30 , resizeMode:"contain"}} source={require("../images/phone_icon.png")}/>
@@ -116,15 +187,9 @@ const MyProfile = ({ navigation }) => {
                             <Text style={{color:"#4F2F24",fontSize:18,letterSpacing:1,fontWeight:"700"}}>Change Password</Text>
                         </TouchableOpacity>
                     </View>
-
-                        {/* <View style={{marginLeft:"4%"}}>
-                            <Text style={styles.heading} >Change Password</Text>
-
-                        </View> */}
-
-                        <Image style={{alignSelf:"center",marginTop:"2%", position: 'absolute', top:10, right: -10, height:40 , resizeMode:"contain"}} source={require("../images/check_icon.png")}/>
-
-                        {/* <Image style={styles.smallImages} source={require("../images/check_icon.png")}/> */}
+                        <TouchableOpacity style={styles.tickcontainer} onPress={() => handleSubmitButton()}>
+                            <Image style = {styles.tick} source={require("../images/check_icon.png")}/>
+                        </TouchableOpacity>
                     </View>
 
                 </View>
@@ -177,7 +242,17 @@ const styles = StyleSheet.create({
         marginTop:"2%",
 
     },
-
+    tick:{
+            resizeMode: "contain",
+            height: "100%",
+            width: "100%",
+        },
+    tickcontainer:{
+        height: 50,
+        width: 50,
+        top: "2%",
+        right: "-110%",
+    }, 
     horizontalBar:{
         flexDirection:"row"
     },
