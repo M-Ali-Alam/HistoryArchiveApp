@@ -117,14 +117,8 @@ const MyProfile = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
 
-                        {/* <View style={{marginLeft:"4%"}}>
-                            <Text style={styles.heading} >Change Password</Text>
-
-                        </View> */}
-
                         <Image style={{alignSelf:"center",marginTop:"2%", position: 'absolute', top:10, right: -10, height:40 , resizeMode:"contain"}} source={require("../images/check_icon.png")}/>
 
-                        {/* <Image style={styles.smallImages} source={require("../images/check_icon.png")}/> */}
                     </View>
 
                 </View>

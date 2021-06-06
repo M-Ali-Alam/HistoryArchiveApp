@@ -82,9 +82,7 @@ const HomePage = ({navigation} , props) => {
               data={res}
               renderItem={({ item }) => {
                 return (
-                  <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={() => navigation.navigate("ViewArticle",{
-                    article:{item}
-                  })} >
+                  <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={() => navigation.navigate("ViewArticle",{article:item})} >
                     <MiniArticle navigation article={item}/>
                   </TouchableOpacity>
                 );
