@@ -1,7 +1,9 @@
 import React from "react";
 import {useState, useEffect} from "react";
-import { StyleSheet,ScrollView,Image, TouchableOpacity, Text, View, FlatList, DevSettings } from "react-native";
+import { StyleSheet,RefreshControl,Image, TouchableOpacity, Text, View, FlatList, DevSettings } from "react-native";
 import { Entypo, AntDesign  } from '@expo/vector-icons';
+import tokenTypeContext from "../context/tokenType";
+
 
 // importing component
 import Header from "./header";
@@ -12,14 +14,31 @@ const Gap = () => {
     )
 };
 
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
+
 const ModeratorPanel = (props) => {
+  const {token,setToken,type,setType} = React.useContext(tokenTypeContext);
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);  
+
 // Function to Call Moderate APIs
   const moderate = (command, userId) =>{    
+      if(command==2 && type !=0){
+        console.log("Upvote Unsuccessful")
+      }
+      else{
       try{
           fetch("https://historyarchiveapi.herokuapp.com/moderator/moderate", {
             method:'POST',
             body: JSON.stringify({
-              token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwYjkyNjZkNDM3ZTI2MGRkOGQwYmY0MCIsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjI3NDY3Njl9.bkqC-mBRUNwyz40vNujzl0eOednyPEa51goIYZRfAhM",
+              token:token,
               userId: userId,
               command: command
             }),
@@ -34,13 +53,12 @@ const ModeratorPanel = (props) => {
                 console.log("Moderation Unsuccessful")
               } else {
                 console.log("Moderation Successful")
-                DevSettings.reload()
               }
             })
           }catch (error){
               console.log(error);
           }       
-
+        }
   }
 
 
@@ -50,8 +68,8 @@ const ModeratorPanel = (props) => {
     if(userType == 2){
       return (
         <View style={styles.iconContainer}>
-        <View style={styles.icons}>
-        <TouchableOpacity activeOpacity={0.5}>
+        <View style={styles.icons}> 
+        <TouchableOpacity activeOpacity={0.5} onPress={() =>moderate(2, userId) }>
         <AntDesign name="like1" size={32} color="#4F2F24" />
         </TouchableOpacity>
         </View>
@@ -150,7 +168,12 @@ useEffect( () => {
               
               );}
             }
-            
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }            
           />
           
       </View>
@@ -183,6 +206,12 @@ useEffect( () => {
               </View>
               );}
             }
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }            
           />
           </View>
 

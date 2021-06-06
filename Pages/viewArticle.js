@@ -1,30 +1,23 @@
 import React from "react";
 import { StyleSheet, ImageBackground, Image, TouchableOpacity, Text, ScrollView, View} from "react-native";
 import { MaterialCommunityIcons,FontAwesome5 } from '@expo/vector-icons'; 
-
 import tokenTypeContext from "../context/tokenType";
+import { useNavigation } from '@react-navigation/native';
 
 // importing component
 import Header from "./header";
 
-const ViewArticle = ({ navigation, route } ) => {
+const ViewArticle = ({ route } ) => {
 
-  console.log('Props from view article')
-  console.log('Props from view article')
-  console.log('Props from view article')
-  console.log(navigation)
-  console.log('Props from view article')
-  console.log('Props from view article')
-  console.log(route.params.article)
-  
+  const navigation = useNavigation();
 
   const {token,setToken,type,setType} = React.useContext(tokenTypeContext);
 
-    const Edit = () => {
-        if(type == 0 || type == 1 || type == 2){
+    const Edit = (props) => {
+        if(route.params.article.isEditable != undefined ){
             return(
                 <MaterialCommunityIcons name="pencil" size={30} style={styles.icon} color="#4F2F24" onPress={() => navigation.navigate("EditArticle",{
-                  article:article
+                  article:props.article
                 })}/>
             )
         }else{
@@ -32,10 +25,37 @@ const ViewArticle = ({ navigation, route } ) => {
         }
     }
 
+    const deleteArticle = () => {
+
+      try{
+      fetch("https://historyarchiveapi.herokuapp.com/article/delete", {
+        method:'POST',
+        body: JSON.stringify({
+          token:token,
+          articleId:route.params.article._id
+        }),
+        headers: {
+          'Content-Type':
+          'application/json',
+        },
+        }).then((response) => response.json())
+        .then((json) => {
+          if ( json.header["error"] != 0 ){
+          }else{
+            navigation.navigate("DrawerScreen")
+          }
+        }).catch((error) => {
+          console.error(error);
+        });
+      }catch (error){
+        console.log(error);
+      }
+    }
+
     const Trash = () => {
-      if(type == 0 || type == 1 || type == 2){
+      if(route.params.article.isDeletable != undefined ){
         return(
-          <FontAwesome5 name="trash" size={36} color="#4F2F24" onPress={() => alert("Are you srue you want to delete this article?") }/>
+          <FontAwesome5 name="trash" size={36} color="#4F2F24" onPress={() => deleteArticle() }/>
         )
       }else{
         return(<View></View>)
@@ -49,7 +69,7 @@ const ViewArticle = ({ navigation, route } ) => {
          <ScrollView style={{flex:1}}>
             <View style={styles.imgContainer}>
               <ImageBackground source={{uri:`${route.params.article.image}`}} style={styles.img}>
-                  <Edit/>
+                  <Edit article={route.params.article} />
 
               </ImageBackground>
             </View>            

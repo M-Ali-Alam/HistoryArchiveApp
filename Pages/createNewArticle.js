@@ -5,7 +5,6 @@ import tokenTypeContext from "../context/tokenType";
 
 // importing component
 import Header from "./header";
-import MyButton from "./Components/MyButtons"
 
 const CreateNewArticle = ({navigation}) => {
 
@@ -14,7 +13,7 @@ const CreateNewArticle = ({navigation}) => {
   const [text, setText] = React.useState("");
   const [location,setLocation] = React.useState("");
   const [eventName, setEventName] = React.useState("");
-  const [authorName, setAuthorName] = React.useState("");
+  const [title, settitle] = React.useState("");
   const [date, setDate] = React.useState("");
 
   const handleSubmit = async () => {
@@ -27,7 +26,7 @@ const CreateNewArticle = ({navigation}) => {
     if(!eventName){
       return
     }
-    if(!authorName){
+    if(!title){
       return
     }
     if(!date){
@@ -35,30 +34,44 @@ const CreateNewArticle = ({navigation}) => {
     }
 
     try{
-      await fetch("https://historyarchiveapi.herokuapp.com/api/article/createnew", {
+      let temp = {}
+      temp.eventName = eventName
+      temp.title = title
+      temp.date = date
+      temp.location = location
+      temp.mainText = text
+
+      await fetch("https://historyarchiveapi.herokuapp.com/article/createnew", {
         method:'POST',
         body: JSON.stringify({
           token:token,
           article:{
-
+            eventName:eventName,
+            title:title,
+            date:date,
+            location:location,
+            mainText:text
           }
         }),
         headers: {
           'Content-Type':
           'application/json',
         },
-        }).then((response) => response.text())
+        }).then((response) => response.json())
         .then((json) => {
-          console.log("json = ")
+          console.log("json.header")
+          console.log("json.header")
+          console.log("json.header")
+          console.log("json.header")
+          console.log("json.header")
+          console.log("json.header")
           console.log(json)
-          console.log("error code = ")
-          console.log(json.header['error code'])
-          if ( !Object.keys(json.body).length ){
+          if ( json.header['error'] ){
             setError(`${json.header.message}`)
           }else{
             setToken(json.body.token)
             setType(json.body.userType)
-            navigation.navigate("DrawerScreen", {token :json.body.token, userType: json.body.userType})
+            navigation.push("DrawerScreen")
           }
         }).catch((error) => {
           console.error(error);
@@ -70,7 +83,7 @@ const CreateNewArticle = ({navigation}) => {
 
     return (
         <View style={styles.container}>
-          <Header content="Edit Article" navigation />
+          <Header content="New Article" navigation />
             <View style={styles.scrollContainer}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.eventName}>
@@ -78,7 +91,7 @@ const CreateNewArticle = ({navigation}) => {
                 </View>
 
                 <View style={styles.author}>
-                  <TextInput style={styles.eventText} placeholder={"Author Name"} onChangeText={(an) => setAuthorName(an)} />
+                  <TextInput style={styles.eventText} placeholder={"Title"} onChangeText={(an) => settitle(an)} />
                 </View>
 
                 <View style={styles.author}>

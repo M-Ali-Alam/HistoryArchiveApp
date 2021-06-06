@@ -35,6 +35,13 @@ export function DrawerContent(props){
 
     }
 
+        console.log("props")
+        console.log("props")
+        console.log("props")
+        console.log("props")
+        console.log("props")
+        console.log(props)
+
     return(
           
         // <View style={styles.upperLayer}>

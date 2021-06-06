@@ -9,13 +9,69 @@ import {
 } from "react-native";
 
 import Header from "./header";
+import tokenTypeContext from "../context/tokenType";
 
 
 const ChangePassword = ({ navigation }) => {
 
+    const {token,setToken,type,setType} = React.useContext(tokenTypeContext);
     const [previous, setPrevious] = useState('');
     const [new1, setNew1] = useState('');
     const [new2, setNew2] = useState('');
+    const [error, setError] = useState('');
+
+    const handleSubmitButton = async() => { 
+
+        if(!previous){
+          console.log('Please enter Previous Password');
+          return;
+        }
+        
+        if(!new1){
+            console.log('Please enter New Password');
+            return;
+  
+        }
+
+        if(new1 != new2){
+          console.log('Password Mismatch');
+          return;
+        }
+    
+        try{
+          await fetch("https://historyarchiveapi.herokuapp.com/changepassword", {
+            method:'POST',
+            body: JSON.stringify({
+              token: token,  
+              oldPassword:previous,
+              newPassword:new1
+            }),
+            headers: {
+              'Content-Type':
+              'application/json',
+            },
+            }).then((response) => response.json())
+            .then((json) => {
+                console.log("This is json")
+                console.log("This is json")
+                console.log("This is json")
+                console.log("This is json")
+                console.log("This is json")
+                console.log(json)
+
+              if (json.header["error"] != 0) {
+                console.log(json.header.message)
+              }else{
+                console.log("Password Changed Successfully")
+                navigation.navigate("LandingPage")
+              }
+            }).catch((error) => {
+              console.error(error);;
+            });
+          }catch (error){
+            console.log(error);
+          }
+      }
 
 
     return (
@@ -26,19 +82,19 @@ const ChangePassword = ({ navigation }) => {
             <View style={{marginTop:"10%"}}></View>
 
             <View style={styles.inputView}>
-                <TextInput style={styles.input} placeholder="Previous Password" onChangeText={(pre) => setPrevious(pre)} />
+                <TextInput secureTextEntry={true} style={styles.input} placeholder="Previous Password" onChangeText={(pre) => setPrevious(pre)} />
             </View>
 
             <View style={styles.inputView}>
-                <TextInput style={styles.input} placeholder="New Password" onChangeText={(newP) => setNew1(newP)} />
+                <TextInput secureTextEntry={true} style={styles.input} placeholder="New Password" onChangeText={(newP) => setNew1(newP)} />
             </View>
 
             <View style={styles.inputView}>
-                <TextInput style={styles.input} placeholder="Re-enter new password" onChangeText={(newP1) => setNew2(newP1)} />
+                <TextInput secureTextEntry={true} style={styles.input} placeholder="Re-enter new password" onChangeText={(newP1) => setNew2(newP1)} />
             </View>
 
             <View style={styles.button}>
-                <TouchableOpacity style={styles.buttonsContainer} onPress={() => navigation.navigate("SignIn")} >
+                <TouchableOpacity style={styles.buttonsContainer} onPress={() => handleSubmitButton()} >
                     <Text style={styles.buttons}>Change Password</Text>
                 </TouchableOpacity>
             </View>

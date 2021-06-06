@@ -47,8 +47,8 @@ const SignIn = ({ navigation }) => {
         .then((json) => {
           console.log("json = ")
           console.log(json)
-          console.log("error code = ")
-          console.log(json.header['error code'])
+          console.log("error = ")
+          console.log(json.header['error'])
           if ( !Object.keys(json.body).length ){
             setError(`${json.header.message}`)
           }else{
