@@ -2,11 +2,32 @@ import React from "react";
 import { StyleSheet, ImageBackground, Image, TouchableOpacity, Text, ScrollView, View} from "react-native";
 import { MaterialCommunityIcons,FontAwesome5 } from '@expo/vector-icons'; 
 import tokenTypeContext from "../context/tokenType";
+import { useNavigation } from '@react-navigation/native';
 
 // importing component
 import Header from "./header";
 
-const ViewArticle = ({navigation}, props) => {
+const ViewArticle = (props) => {
+
+  const navigation = useNavigation();
+
+  console.log('Props from view article')
+  console.log('Props from view article')
+  console.log('Props from view article')
+  console.log('Props from view article')
+  console.log('Props from view article')
+  console.log('Props from view article')
+  console.log('Props from view article')
+  console.log('Props from view article')
+  console.log('Props from view article')
+  console.log('Props from view article')
+  console.log('Props from view article')
+  console.log('Props from view article')
+  console.log('Props from view article')
+  console.log('Props from view article')
+  console.log('Props from view article')
+
+  console.log(props.route.params)
 
   const {token,setToken,type,setType} = React.useContext(tokenTypeContext);
 
@@ -34,11 +55,11 @@ const ViewArticle = ({navigation}, props) => {
 
   return (
     <View style={styles.container}>
-        <Header content={props.article.eventName} navigation />
+        <Header content={props.route.params.article.item.eventName} navigation />
         <View style={styles.scrollContainer}>
          <ScrollView style={{flex:1}}>
             <View style={styles.imgContainer}>
-              <ImageBackground source={require("../images/mountains.png")} style={styles.img}>
+              <ImageBackground source={{uri:`${props.route.params.article.item.image}`}} style={styles.img}>
                   <Edit/>
 
               </ImageBackground>
@@ -46,8 +67,8 @@ const ViewArticle = ({navigation}, props) => {
 
             <View style={{flexDirection:"row"}}>
               <View style={{flex:3}}>
-                <Text style={styles.author}>By: {props.article.authorName}</Text>
-                <Text style={styles.location}>Location: {props.article.location}</Text>
+                <Text style={styles.author}>By: {props.route.params.article.item.authorName}</Text>
+                <Text style={styles.location}>Location: {props.route.params.article.item.location}</Text>
               </View>
             <View style={{flexDirection:"row-reverse",marginLeft:"5%", alignSelf:"center",flex:1}}>
               <Trash/>
@@ -56,7 +77,7 @@ const ViewArticle = ({navigation}, props) => {
 
             <Text style={styles.details}>Details</Text> 
 
-            <Text style={styles.text}>{props.article.mainText}</Text>
+            <Text style={styles.text}>{props.route.params.article.item.mainText}</Text>
             
         </ScrollView>
 

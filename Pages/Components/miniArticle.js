@@ -27,7 +27,7 @@ const MiniArticle = (props) => {
         <View style={styles.container}>
           <Gap/>
             <View style={styles.imgContainer}>
-                <ImageBackground source={require("../../images/bridge.png")} style={styles.img}>
+                <ImageBackground source={{uri:`${props.article.image}`}} style={styles.img}>
                 <Edit/>
                 </ImageBackground>
             </View>
