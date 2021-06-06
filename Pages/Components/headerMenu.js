@@ -13,7 +13,7 @@ const HeaderMenu = (props) => {
       <View style={styles.statusBar}></View>
       <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-              <MaterialCommunityIcons name="hamburger" size={50} color="black" />
+              <MaterialCommunityIcons name="hamburger" size={50} color="#4F2F24" />
           </TouchableOpacity>
         <Text style={styles.heading}>HomePage</Text>
         

@@ -1,18 +1,34 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, ImageBackground, Text, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from '@react-navigation/native';
+import tokenTypeContext from "../../context/tokenType";
 
 const Gap = () => {
   return <View style={{ height: 20 ,backgroundColor:"#5C3B28"}}></View>;
 };
 
 const MiniArticle = (props) => {
+
+    const navigation = useNavigation();
+    const {token,setToken,type,setType} = React.useContext(tokenTypeContext);
+
+    const Edit = () => {
+        if(type == 0 || type == 1 || type == 2){
+            return(
+                <MaterialCommunityIcons name="pencil" size={30} style={styles.icon} color="#4F2F24" onPress={() => navigation.navigate("EditArticle")}/>
+            )
+        }else{
+            return(<View></View>)
+        }
+    }
+
     return (
         <View style={styles.container}>
           <Gap/>
             <View style={styles.imgContainer}>
                 <ImageBackground source={require("../../images/bridge.png")} style={styles.img}>
-                    <MaterialCommunityIcons name="pencil" size={30} style={styles.icon} color="#4F2F24" />
+                <Edit/>
                 </ImageBackground>
             </View>
 

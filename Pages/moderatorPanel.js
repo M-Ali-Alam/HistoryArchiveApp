@@ -1,13 +1,10 @@
 import React from "react";
 import {useState, useEffect} from "react";
-import { StyleSheet,ScrollView,Image, TouchableOpacity, Text, View, FlatList } from "react-native";
+import { StyleSheet,ScrollView,Image, TouchableOpacity, Text, View, FlatList, DevSettings } from "react-native";
 import { Entypo, AntDesign  } from '@expo/vector-icons';
 
 // importing component
 import Header from "./header";
-import ActiveUser from "./Components/activeUser"
-import InactiveUser from "./Components/inactiveUser"
-
 
 const Gap = () => {
     return(
@@ -15,11 +12,41 @@ const Gap = () => {
     )
 };
 
-
-
 const ModeratorPanel = (props) => {
+// Function to Call Moderate APIs
+  const moderate = (command, userId) =>{    
+      try{
+          fetch("https://historyarchiveapi.herokuapp.com/moderator/moderate", {
+            method:'POST',
+            body: JSON.stringify({
+              token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwYjkyNjZkNDM3ZTI2MGRkOGQwYmY0MCIsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2MjI3NDY3Njl9.bkqC-mBRUNwyz40vNujzl0eOednyPEa51goIYZRfAhM",
+              userId: userId,
+              command: command
+            }),
+            headers: {
+              'Content-Type':
+              'application/json',
+            },
+            }).then((response) => response.json())
+            .then((json) => {
+              console.log(json.header["error"]);
+              if (json.header["error"] != 0) {
+                console.log("Moderation Unsuccessful")
+              } else {
+                console.log("Moderation Successful")
+                DevSettings.reload()
+              }
+            })
+          }catch (error){
+              console.log(error);
+          }       
 
-  const Check = ({userType})=>{
+  }
+
+
+
+//Funtion to Display icons and call related funtions  
+  const Check = ({userId, userType})=>{
     if(userType == 2){
       return (
         <View style={styles.iconContainer}>
@@ -29,13 +56,13 @@ const ModeratorPanel = (props) => {
         </TouchableOpacity>
         </View>
         <View style={styles.icons}>
-        <TouchableOpacity activeOpacity={0.5}>
+        <TouchableOpacity activeOpacity={0.5} onPress={() =>moderate(1, userId) }>
         <Entypo name="block" size={32} color="#4F2F24" />        
         </TouchableOpacity>
         </View>
         <View style={styles.icons}>
-        <TouchableOpacity activeOpacity={0.5}>
-        <Entypo name="warning" size={32} color="#4F2F24" />
+        <TouchableOpacity activeOpacity={0.5} onPress={() =>moderate(0, userId) }>
+        <Entypo name="warning" size={32} color="#4F2F24"/>
         </TouchableOpacity>
         </View>
         </View>
@@ -44,10 +71,14 @@ const ModeratorPanel = (props) => {
       return (
         <View style={styles.iconContainer}>
         <View style={styles.icons}>
-        <Entypo name="warning" size={32} color="#4F2F24"  />
+        <TouchableOpacity activeOpacity={0.5} onPress={() =>moderate(0, userId) }>
+        <Entypo name="warning" size={32} color="#4F2F24"/>
+        </TouchableOpacity>
         </View>
         <View style={styles.icons}>
+        <TouchableOpacity activeOpacity={0.5} onPress={() =>moderate(4, userId) }>
         <AntDesign name="dislike1" size={32} color="#4F2F24" />
+        </TouchableOpacity>
         </View>
         </View>
         );
@@ -111,16 +142,17 @@ useEffect( () => {
           renderItem={({ item }) => {
             return (
               <View style={styles.contentContainer}>
-                <Gap />
                 <Image source={require("../images/profilePic.jpeg")} style={styles.img}>
                 </Image>
                 <Text style={styles.person}>{item.username}</Text>
-                <Check userType = {item.userType}/>
-                <Gap />
+                <Check userId ={item.userId} userType = {item.userType}/>
               </View>
+              
               );}
             }
+            
           />
+          
       </View>
 
 
@@ -138,18 +170,16 @@ useEffect( () => {
           renderItem={({ item }) => {
             return (
               <View style={styles.contentContainer}>
-                <Gap/>
                 <Image source={require("../images/profilePic.jpeg")} style={styles.img}>
                 </Image>
                 <Text style={styles.person2}>{item.username}</Text>
                 <View style={styles.iconContainer}>
               <View style={styles.icons}>
-              <TouchableOpacity activeOpacity={0.5}>
+              <TouchableOpacity activeOpacity={0.5} onPress={() =>moderate(3, item.userId) }>
               <Entypo name="reply" size={40} color="#4F2F24" />
               </TouchableOpacity>
               </View>
               </View>
-              <Gap/>
               </View>
               );}
             }
@@ -166,7 +196,11 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-
+  gap:{
+    backgroundColor: "black",
+    width: "100%",
+    height: 5,
+  },
   textcontainer: {
     top: 15,
     height: 50,
@@ -178,14 +212,16 @@ const styles = StyleSheet.create({
     color: "#5C3B28",
   },
   scrollContainer:{
-      top: 25,
-    width: "100%",
+    top: 25,
+    width: "90%",
     height: "30%",
+    alignSelf: "center",
     backgroundColor: "#F1CBAE",
   },
   scrollContainer2:{
       top: 30,
-    width: "100%",
+    width: "90%",
+    alignSelf: "center",
     backgroundColor: "#F1CBAE",
     height: "24%",
   },
@@ -196,7 +232,7 @@ const styles = StyleSheet.create({
       alignSelf:"center",
   },
   contentContainer:{
-    flex:1, 
+    flex:1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'
@@ -231,9 +267,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   list: {
-   // marginBottom: 50,
-    //marginTop: 10,
-    // flex: 1,
+    marginTop: 10,
+    flex: 1,
   }
 });
 

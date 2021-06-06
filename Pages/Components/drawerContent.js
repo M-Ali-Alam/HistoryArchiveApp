@@ -20,7 +20,19 @@ export function DrawerContent(props){
 
     const {token,setToken,type,setType} = React.useContext(tokenTypeContext);
 
-    const logoutHandle = () => {
+    const ShowModeratorTab = () => {
+        if( type == 0 || type == 1 ){
+            return(<TouchableOpacity activeOpacity={0.5} style={styles.button}>
+                <Text style={styles.buttonText} onPress={() => navigation.navigate("ModeratorPanel")}>Moderation Panel</Text>
+              </TouchableOpacity>)
+        }else{
+            return(
+                <TouchableOpacity activeOpacity={0.5} style={styles.button}>
+                  <Text style={styles.buttonText} onPress={() => navigation.navigate("ModeratorPanel")}>Moderation Panel</Text>
+                </TouchableOpacity>
+            )
+        }
+
     }
 
     return(
@@ -46,9 +58,7 @@ export function DrawerContent(props){
                   <Text style={styles.buttonText} onPress={() => navigation.navigate("MyArticles")}>My Articles</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity activeOpacity={0.5} style={styles.button}>
-                  <Text style={styles.buttonText} onPress={() => navigation.navigate("ModeratorPanel")}>Moderation Panel</Text>
-                </TouchableOpacity>
+                <ShowModeratorTab/>
 
                 <TouchableOpacity activeOpacity={0.5} style={styles.button}>
                   <Text style={styles.buttonText} onPress={() => {setToken()

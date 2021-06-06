@@ -12,7 +12,7 @@ const Gap = () => {
   return <View style={{ height: 20 }}></View>;
 };
 
-const HomePage = (props) => {
+const HomePage = ({navigation} , props) => {
     const [year, setYear] = useState("2009");
     const [res, setRes] = useState(null);
 
@@ -22,7 +22,7 @@ const HomePage = (props) => {
   const ShowButton =() =>{
     if(type == 0 || type == 1 || type == 2){
       return(
-        <TouchableOpacity activeOpacity={0.5} style={styles.plusButtonImg} onPress={() => props.navigation.navigate("CreateNewArticle")}>
+        <TouchableOpacity activeOpacity={0.5} style={styles.plusButtonImg} onPress={() => navigation.navigate("CreateNewArticle")}>
             <Image source={require("../images/plusButton.png")} style={styles.img} />
         </TouchableOpacity>
       )
@@ -50,7 +50,6 @@ const HomePage = (props) => {
             method: "POST",
             body: JSON.stringify({
               token:props.token,
-                // token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwYmIyMmY4NzJhMWEwMDAxNTM1Y2NiNyIsInVzZXJuYW1lIjoibWFsaWFsYW0iLCJpYXQiOjE2MjI5MDAwMTR9.IoMDAFoQIsVZsNuDsWMQpMbChXw1Q6Guh_lLdamIUX0",
                 filter: 0,
                 value: year,
             }),
@@ -83,8 +82,8 @@ const HomePage = (props) => {
                 data={res}
                 renderItem={({ item }) => {
                     return (
-                      <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={() => props.navigation.navigate("ViewArticle")} >
-                        <MiniArticle article={item}/>
+                      <TouchableOpacity style={{flex:1}} activeOpacity={1} onPress={() => navigation.navigate("ViewArticle")} >
+                        <MiniArticle navigation article={item}/>
                       </TouchableOpacity>
                       );
                 }}

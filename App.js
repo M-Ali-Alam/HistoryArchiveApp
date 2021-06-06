@@ -21,6 +21,7 @@ import MyArticles from "./Pages/myArticles";
 import CreateNewArticle from "./Pages/createNewArticle";
 import ModeratorPanel from './Pages/moderatorPanel';
 import ViewArticle from './Pages/viewArticle';
+import EditArticle from "./Pages/editArticle"
 import {TokenProvider} from './context/tokenType';
 
 
@@ -46,6 +47,7 @@ export default function App() {
               <Stack.Screen name="ModeratorPanel" component={ModeratorPanel} />
               <Stack.Screen name="CreateNewArticle" component={CreateNewArticle} />
               <Stack.Screen name="ViewArticle" component={ViewArticle} />
+              <Stack.Screen name="EditArticle" component={EditArticle} />
             </Stack.Navigator>
           </NavigationContainer>
         </TokenProvider>

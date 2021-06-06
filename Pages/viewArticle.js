@@ -1,20 +1,43 @@
 import React from "react";
 import { StyleSheet, ImageBackground, Image, TouchableOpacity, Text, ScrollView, View} from "react-native";
 import { MaterialCommunityIcons,FontAwesome5 } from '@expo/vector-icons'; 
+import tokenTypeContext from "../context/tokenType";
 
 // importing component
 import Header from "./header";
 
-const ViewArticle = () => {
-  return (
+const ViewArticle = ({navigation}) => {
 
+  const {token,setToken,type,setType} = React.useContext(tokenTypeContext);
+
+    const Edit = () => {
+        if(type == 0 || type == 1 || type == 2){
+            return(
+                <MaterialCommunityIcons name="pencil" size={30} style={styles.icon} color="#4F2F24" onPress={() => navigation.navigate("EditArticle")}/>
+            )
+        }else{
+            return(<View></View>)
+        }
+    }
+
+    const Trash = () => {
+      if(type == 0 || type == 1 || type == 2){
+        return(
+          <FontAwesome5 name="trash" size={36} color="#4F2F24" onPress={() => alert("Are you srue you want to delete this article?") }/>
+        )
+      }else{
+        return(<View></View>)
+      }
+    }
+
+  return (
     <View style={styles.container}>
         <Header content="View Article" navigation />
         <View style={styles.scrollContainer}>
          <ScrollView style={{flex:1}}>
             <View style={styles.imgContainer}>
               <ImageBackground source={require("../images/mountains.png")} style={styles.img}>
-                  <MaterialCommunityIcons name="pencil" size={30} style={styles.icon} color="#4F2F24" />
+                  <Edit/>
 
               </ImageBackground>
             </View>            
@@ -25,7 +48,7 @@ const ViewArticle = () => {
                 <Text style={styles.location}>Location: Location name</Text>
               </View>
             <View style={{flexDirection:"row-reverse",marginLeft:"5%", alignSelf:"center",flex:1}}>
-              <FontAwesome5 name="trash" size={36} color="#4F2F24"/>
+              <Trash/>
             </View>
             </View>
 
